@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 const Home = () => {
+
+    const [roverSelect, setRoverSelect] = useState('');
+
     return (
         <>
             <div className="grid grid-cols-1">
@@ -11,16 +16,19 @@ const Home = () => {
                         <button>
                             <img src="/src/assets/react.svg" alt=""/>
                         </button>
+                        <p>Curiosity</p>
                     </div>
                     <div>
                         <button>
                             <img src="/src/assets/react.svg" alt=""/>
                         </button>
+                        <p>Opportunity</p>
                     </div>
                     <div>
                         <button>
                             <img src="/src/assets/react.svg" alt=""/>
                         </button>
+                        <p>Spirit</p>
                     </div>
             </div>
         </>
