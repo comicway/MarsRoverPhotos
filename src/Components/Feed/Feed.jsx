@@ -2,20 +2,34 @@ import {useState, useEffect} from 'react'
 
 const Feed = () => {
     const [photos, setPhotos] = useState([]);
+    const [launchDate, setLaunchDate] = useState('');
+    const [roverStatus, setRoverStatus] = useState('');
+    const [totalPhotos, setTotalPhotos] = useState('');
+    const [maxSol, setMaxSol] = useState('');
+    const roverName = 'curiosity';
+    const date = '2023-12-22';
 
     useEffect(() => {
         const fetchPhotos = async () => {
             const API_KEY = 'ulGfgtUlHNuMVdabXcwnFXSwmENUfrC7HBKkTA8g';
-            const date = '2023-12-31';
-            const url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=${date}&api_key=${API_KEY}`;
+            const photosUrl = `https://api.nasa.gov/mars-photos/api/v1/rovers/${roverName}/photos?earth_date=${date}&api_key=${API_KEY}`;
+            const manifestUrl = `https://api.nasa.gov/mars-photos/api/v1/manifests/${roverName}?api_key=${API_KEY}`;
 
             try {
-                const response = await fetch(url);
-                const data = await response.json();
-                console.log(data.photos);
-                setPhotos(data.photos.slice(0, 25));
+                // Fetch photos
+                const photosResponse = await fetch(photosUrl);
+                const photosData = await photosResponse.json();
+                setPhotos(photosData.photos.slice(0, 25));
+
+                // Fetch manifest for launch date and status
+                const manifestResponse = await fetch(manifestUrl);
+                const manifestData = await manifestResponse.json();
+                setLaunchDate(manifestData.photo_manifest.launch_date);
+                setRoverStatus(manifestData.photo_manifest.status);
+                setTotalPhotos(manifestData.photo_manifest.total_photos);
+                setMaxSol(manifestData.photo_manifest.max_sol);
             } catch (error) {
-                console.error('Error fetching photos:', error);
+                console.error('Error fetching data:', error);
             }
         };
 
@@ -27,11 +41,11 @@ const Feed = () => {
             <div className="flex mt-5">
                 <img src="/src/assets/react.svg" alt="" className="" />
                 <div className="ml-5">
-                    <p>Nombre del Rover</p>
-                    <p>Fecha de lanzamiento</p>
-                    <p>Estado: Activo</p>
-                    <p>Fotos totales</p>
-                    <p>Soles totales</p>
+                    <p className='first-letter:uppercase'>{roverName}</p>
+                    <p>Fecha de Lanzamiento: {launchDate}</p>
+                    <p>Estado: <span className='capitalize'>{roverStatus}</span></p>
+                    <p>Fotos totales: {totalPhotos}</p>
+                    <p>Soles totales: {maxSol}</p>
                 </div>
             </div>
             <div className="grid grid-cols-4 gap-4 mt-5">
