@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
     
@@ -36,6 +37,11 @@ const Home = () => {
                     </button>
                     <p>Spirit</p>
                 </div>
+            </div>
+            <div className="grid grid-cols-1">
+            <Link to='/calendar' className="ml-auto">
+                <button disabled={!roverSelect}>Siguiente</button>
+            </Link>  
             </div>
         </>
     );

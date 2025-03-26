@@ -6,8 +6,9 @@ const Feed = () => {
     const [roverStatus, setRoverStatus] = useState('');
     const [totalPhotos, setTotalPhotos] = useState('');
     const [maxSol, setMaxSol] = useState('');
-    const roverName = 'curiosity';
-    const date = '2023-12-22';
+
+    const roverName = localStorage.getItem('selectedRover'); 
+    const date = localStorage.getItem('selectedDate'); 
 
     useEffect(() => {
         const fetchPhotos = async () => {
@@ -34,7 +35,7 @@ const Feed = () => {
         };
 
         fetchPhotos();
-    }, []);
+    }, [roverName, date]);
 
     return (
         <>
@@ -48,7 +49,7 @@ const Feed = () => {
                     <p>Soles totales: {maxSol}</p>
                 </div>
             </div>
-            <div className="grid grid-cols-4 gap-4 mt-5">
+            <div className="grid grid-cols-4 gap-4 mt-5 pb-5">
                 {photos.map((photo) => (
                     <img 
                         key={photo.id}
