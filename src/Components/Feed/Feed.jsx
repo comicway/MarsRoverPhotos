@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import { Link } from "react-router-dom"
 
 const Feed = () => {
     const [photos, setPhotos] = useState([]);
@@ -6,8 +7,9 @@ const Feed = () => {
     const [roverStatus, setRoverStatus] = useState('');
     const [totalPhotos, setTotalPhotos] = useState('');
     const [maxSol, setMaxSol] = useState('');
-    const roverName = 'curiosity';
-    const date = '2023-12-22';
+
+    const roverName = localStorage.getItem('selectedRover'); 
+    const date = localStorage.getItem('selectedDate'); 
 
     useEffect(() => {
         const fetchPhotos = async () => {
@@ -34,7 +36,7 @@ const Feed = () => {
         };
 
         fetchPhotos();
-    }, []);
+    }, [roverName, date]);
 
     return (
         <>
@@ -46,9 +48,10 @@ const Feed = () => {
                     <p>Estado: <span className='capitalize'>{roverStatus}</span></p>
                     <p>Fotos totales: {totalPhotos}</p>
                     <p>Soles totales: {maxSol}</p>
+                    <p>{date}</p>
                 </div>
             </div>
-            <div className="grid grid-cols-4 gap-4 mt-5">
+            <div className="grid grid-cols-4 gap-4 mt-5 pb-5">
                 {photos.map((photo) => (
                     <img 
                         key={photo.id}
@@ -57,6 +60,14 @@ const Feed = () => {
                         className="w-full h-auto rounded-lg"
                     />
                 ))}
+            </div>
+            <div className="grid grid-cols-1 justify-center">
+            {photos.length === 0 && (
+                    <p className="text-red-500">No se encontraron fotos para esa fecha, por favor regresar y seleccionar otra</p>
+                )}
+                <Link to='/'>
+                    <button>Regresar</button>
+                </Link> 
             </div>
         </>
     );
