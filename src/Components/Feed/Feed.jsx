@@ -40,35 +40,49 @@ const Feed = () => {
 
     return (
         <>
-            <div className="flex mt-5">
-                <img src="/src/assets/react.svg" alt="" className="" />
-                <div className="ml-5">
-                    <p className='first-letter:uppercase'>{roverName}</p>
-                    <p>Fecha de Lanzamiento: {launchDate}</p>
-                    <p>Estado: <span className='capitalize'>{roverStatus}</span></p>
-                    <p>Fotos totales: {totalPhotos}</p>
-                    <p>Soles totales: {maxSol}</p>
-                    <p>{date}</p>
+            <section  className="grid grid-cols-3 gap-1 mt-5">
+                <div>
+                    <img src="/asset/img/rover-curiosity-3d.png" alt="Rover Curiosity" className='mx-auto'/>
                 </div>
-            </div>
-            <div className="grid grid-cols-4 gap-4 mt-5 pb-5">
+                <div>
+                    <img src="/asset/img/icono-sol.svg" alt="" className='w-full h-[68px]'/>
+                    <p className='text-white font-SpaceGrotesk font-bold text-[16px] text-center'>{maxSol}</p>
+                </div>
+                <div>
+                    <img src="/asset/img/icono-camera.svg" alt="" className='w-full h-[68px]'/>
+                    <p className='text-white font-SpaceGrotesk font-bold text-[16px] text-center'>{totalPhotos}</p>
+                </div>
+            </section>
+            <section className="grid grid-cols-1">
+                <div className="text-center text-white border-t border-b border-white mt-[32px] text-[18px] font-bold font-SpaceGrotesk first-letter:uppercase py-[5px]">{roverName}</div>
+                <div className="text-center text-white border-b border-white text-[15px] font-bold font-SpaceGrotesk py-[5px]">{date}</div>
+            </section>
+            <section className="grid grid-cols-2 gap-1 mt-5 pb-5">
                 {photos.map((photo) => (
                     <img 
                         key={photo.id}
                         src={photo.img_src}
                         alt={`Mars rover photo ${photo.id}`}
-                        className="w-full h-auto rounded-lg"
+                        className="w-full h-auto"
                     />
                 ))}
-            </div>
-            <div className="grid grid-cols-1 justify-center">
+            </section>
+            <section className="grid grid-cols-2 justify-center gap-5 pb-5">
             {photos.length === 0 && (
                     <p className="text-red-500">No se encontraron fotos para esa fecha, por favor regresar y seleccionar otra</p>
                 )}
+            </section>
+            <section className="grid grid-cols-2 gap-5 pb-5">
+                <Link to='/calendar'>
+                    <button className="text-white font-bold font-SpaceGrotesk text-[16px] bg-[#BF3B0B] w-full h-[40px] rounded">Regresar</button>
+                </Link>
                 <Link to='/'>
-                    <button>Regresar</button>
-                </Link> 
-            </div>
+                    <button className="text-white font-medium font-SpaceGrotesk text-[16px] bg-none w-full h-[40px] rounded border border-[#BF3B0B]">Ir al inicio</button>
+                </Link>
+            </section>
+            <section>
+                <div className="text-center text-white border-t border-b border-white text-[12px] font-light font-SpaceGrotesk py-[4px]">Diseñado y desarrollado por: moises.script</div>
+            </section>
         </>
     );
 };

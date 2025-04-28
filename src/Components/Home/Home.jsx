@@ -13,8 +13,8 @@ const Home = () => {
 
     return (
         <>
-            <div className="grid grid-cols-1">
-                <img src="/src/assets/logoroverphotos.svg" alt="" className="mx-auto mt-5" />
+            <div className="grid grid-cols-1 mt-5">
+                <img src="/src/assets/logoroverphotos.svg" alt="" className="mx-auto" />
                 <p className="text-center text-white border-t border-b border-white my-[32px] text-[20px] font-bold font-SpaceGrotesk py-[18px]">¡Elige tu rover preferido!</p>
             </div>
             <div className="grid grid-cols-3 gap-3 mt-2">
