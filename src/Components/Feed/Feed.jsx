@@ -13,7 +13,7 @@ const Feed = () => {
 
     useEffect(() => {
         const fetchPhotos = async () => {
-            const API_KEY = 'ulGfgtUlHNuMVdabXcwnFXSwmENUfrC7HBKkTA8g';
+            const API_KEY = 'M9RpgIfPIE5CK0shTYQKszNHYurqSM6buLB7M14w';
             const photosUrl = `https://api.nasa.gov/mars-photos/api/v1/rovers/${roverName}/photos?earth_date=${date}&api_key=${API_KEY}`;
             const manifestUrl = `https://api.nasa.gov/mars-photos/api/v1/manifests/${roverName}?api_key=${API_KEY}`;
 
