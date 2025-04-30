@@ -3,7 +3,13 @@ import { Link } from "react-router-dom"
 
 const Home = () => {
     
-    const [roverSelect, setRoverSelect] = useState();
+    const [roverSelect, setRoverSelect] = useState(localStorage.getItem('selectedRover'));
+
+    useEffect(() => {
+        localStorage.clear();
+        console.log("LocalStorage limpiado al montar Home."); 
+        setRoverSelect(null);
+    }, []);
 
     const selectRover = (selectedRover) => {
         setRoverSelect(selectedRover);
@@ -11,7 +17,7 @@ const Home = () => {
         console.log(selectedRover);
     };
 
-    const roverName = localStorage.getItem('selectedRover');
+    const roverName = roverSelect;
 
     const [launchDate, setLaunchDate] = useState('');
     const [roverStatus, setRoverStatus] = useState('');
@@ -21,7 +27,18 @@ const Home = () => {
     const [maxDate, setMaxDate] = useState('');
 
     useEffect(() => {
-        const fetchPhotos = async () => {
+        const fetchManifest = async () => {
+
+            if (!roverName) {
+                console.log("No hay rover seleccionado, omitiendo fetch.");
+                setRoverStatus('');
+                setTotalPhotos('');
+                setMaxSol('');
+                setLaunchDate('');
+                setLandingDate('');
+                setMaxDate('');
+                return; 
+            }
             const API_KEY = 'M9RpgIfPIE5CK0shTYQKszNHYurqSM6buLB7M14w';
             const manifestUrl = `https://api.nasa.gov/mars-photos/api/v1/manifests/${roverName}?api_key=${API_KEY}`;
 
@@ -40,7 +57,7 @@ const Home = () => {
             }
         };
 
-        fetchPhotos();
+        fetchManifest();
     }, [roverName]);
 
     return (
@@ -78,30 +95,34 @@ const Home = () => {
                 </button>
             </Link>
             </div>
-            <section className="grid grid-cols-1 mt-10">
-                <div className="text-center text-white border-t border-b border-white mt-[32px] text-[20px] font-bold font-SpaceGrotesk py-[18px] first-letter:uppercase">{roverName}</div>
-                <div className="text-center text-white border-b border-white text-[18px] font-bold font-SpaceGrotesk py-[18px]"><span className="font-light">DÍA DE LANZAMIENTO: </span>{launchDate}</div>
-                <div className="flex justify-evenly text-white border-b border-white text-[18px] font-light font-SpaceGrotesk py-[18px]">
-                    <div>STATUS:</div>
-                    <div className="bg-[#0FF2F2] font-bold text-black px-2 text-center w-[200px]">{roverStatus}</div>
-                </div>
-                <div className="flex justify-evenly items-center text-white border-b border-white font-SpaceGrotesk py-[18px]">
-                    <div><img src="/asset/img/icono-sol.svg" alt="" /></div>
-                    <div className="">
-                        <p className="font-light text-center text-[15px]">Soles Totales</p>
-                        <p className="font-bold text-center text-[40px] mt-[-15px]">{maxSol}</p>
+            {roverSelect && (
+                <section className="grid grid-cols-1 mt-10">
+                    <div className="text-center text-white border-t border-b border-white mt-[32px] text-[20px] font-bold font-SpaceGrotesk py-[18px] first-letter:uppercase">{roverName}</div>
+                    <div className="text-center text-white border-b border-white text-[18px] font-bold font-SpaceGrotesk py-[18px]"><span className="font-light">DÍA DE LANZAMIENTO: </span>{launchDate}</div>
+                    <div className="flex justify-evenly text-white border-b border-white text-[18px] font-light font-SpaceGrotesk py-[18px]">
+                        <div>STATUS:</div>
+                        <div className="bg-[#0FF2F2] font-bold text-black px-2 text-center w-[200px] first-letter:uppercase">{roverStatus}</div>
                     </div>
-                </div>
-                <div className="text-center text-white border-b border-white text-[18px] font-bold font-SpaceGrotesk py-[18px]"><span className="font-light">INICIO DE ACTIVIDADES: </span>{landingDate}</div>
-                <div className="text-center text-white border-b border-white text-[18px] font-bold font-SpaceGrotesk py-[18px]"><span className="font-light">ÚLTIMO DÍA DE FOTOS: </span>{maxDate}</div>
-                <div className="flex justify-evenly items-center text-white border-b border-white font-SpaceGrotesk py-[18px]">
-                    <div><img src="/asset/img/icono-camera.svg" alt="" /></div>
-                    <div className="">
-                        <p className="font-light text-center text-[15px]">Fotos Tomadas</p>
-                        <p className="font-bold text-center text-[40px] mt-[-15px]">{totalPhotos}</p>
+                    <div className="flex justify-evenly items-center text-white border-b border-white font-SpaceGrotesk py-[18px]">
+                        <div><img src="/asset/img/icono-sol.svg" alt="" /></div>
+                        <div className="">
+                            <p className="font-light text-center text-[15px]">Soles Totales</p>
+                            <p className="font-bold text-center text-[40px] mt-[-15px]">{maxSol}</p>
+                        </div>
                     </div>
-                </div>
-                <div className="text-center text-white border-b border-white text-[12px] font-light font-SpaceGrotesk py-[4px]">Diseñado y desarrollado por: moises.script</div>
+                    <div className="text-center text-white border-b border-white text-[18px] font-bold font-SpaceGrotesk py-[18px]"><span className="font-light">INICIO DE ACTIVIDADES: </span>{landingDate}</div>
+                    <div className="text-center text-white border-b border-white text-[18px] font-bold font-SpaceGrotesk py-[18px]"><span className="font-light">ÚLTIMO DÍA DE FOTOS: </span>{maxDate}</div>
+                    <div className="flex justify-evenly items-center text-white border-b border-white font-SpaceGrotesk py-[18px]">
+                        <div><img src="/asset/img/icono-camera.svg" alt="" /></div>
+                        <div className="">
+                            <p className="font-light text-center text-[15px]">Fotos Tomadas</p>
+                            <p className="font-bold text-center text-[40px] mt-[-15px]">{totalPhotos}</p>
+                        </div>
+                    </div>
+                </section>
+            )}
+            <section className='grid grid-cols-1 mt-10'>
+                <div className="text-center text-white border-b border-t border-white text-[12px] font-light font-SpaceGrotesk py-[4px]">Diseñado y desarrollado por: moises.script</div>
             </section>
         </>
     );
