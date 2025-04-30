@@ -5,7 +5,11 @@
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        SpaceGrotesk: ['SpaceGrotesk','sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
